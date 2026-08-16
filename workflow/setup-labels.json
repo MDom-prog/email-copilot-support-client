@@ -1,0 +1,92 @@
+{
+  "name": "Email Copilot - Setup labels Gmail",
+  "description": null,
+  "nodes": [
+    {
+      "id": "a1b2c3d4-1111-4a11-9001-0e1f2a3b4c50",
+      "webhookId": "WEBHOOK_ID",
+      "name": "Webhook - Setup labels",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "setup-labels-copilot",
+        "responseMode": "lastNode",
+        "responseData": "allEntries",
+        "options": {}
+      }
+    },
+    {
+      "id": "a1b2c3d4-2222-4a22-9002-0e1f2a3b4c52",
+      "name": "Lister les labels à créer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// Les 4 issues possibles du tri, une par sortie du classifieur.\n// Le préfixe \"Copilot/\" les regroupe dans une arborescence Gmail.\nreturn [\n  { json: { name: 'Copilot/A valider' } },\n  { json: { name: 'Copilot/Escalade' } },\n  { json: { name: 'Copilot/Hors perimetre' } },\n  { json: { name: 'Copilot/A trier' } },\n  // Marqueur de traitement. Nommé sans espace ni barre oblique parce qu'il\n  // est utilisé dans la requête du déclencheur (-label:copilot-traite), où\n  // Gmail normalise les séparateurs de façon peu prévisible.\n  { json: { name: 'Copilot-Traite' } },\n];"
+      }
+    },
+    {
+      "id": "a1b2c3d4-3333-4a33-9003-0e1f2a3b4c53",
+      "webhookId": "WEBHOOK_ID",
+      "name": "Créer le label",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "resource": "label",
+        "operation": "create",
+        "name": "={{ $json.name }}"
+      },
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GMAIL_CREDENTIAL_ID",
+          "name": "Gmail"
+        }
+      },
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "connections": {
+    "Webhook - Setup labels": {
+      "main": [
+        [
+          {
+            "node": "Lister les labels à créer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lister les labels à créer": {
+      "main": [
+        [
+          {
+            "node": "Créer le label",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "activeVersionId": null,
+  "versionCounter": 11,
+  "activeVersion": null
+}

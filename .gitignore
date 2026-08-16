@@ -1,0 +1,38 @@
+# Secrets et configuration locale
+.env
+.env.local
+*.key
+*.pem
+credentials.json
+
+# n8n
+.n8n/
+.n8n-state.json
+.n8n-sync-events.jsonl
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Éditeurs et OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Fichiers de travail vidéo (les sources brutes restent hors dépôt)
+*.mkv
+capture-*.mp4
+
+# Sortie du générateur de cartons
+landing-demo/build/
+cards/
+filter.txt
