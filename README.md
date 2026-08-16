@@ -184,6 +184,10 @@ priorité :
 Démonstration technique fonctionnelle, testée de bout en bout sur une vraie
 boîte Gmail. Le système n'a pas été déployé chez un commerçant.
 
+Ce dépôt est la démonstration technique du moteur derrière **Inbox Concierge
+Pro**, une prestation que je propose en micro-entreprise, appliqué ici au cas
+d'une boutique en ligne : <https://inbox-concierge-pro.lovable.app>
+
 ## Licence
 
 MIT, voir `LICENSE`.
